@@ -1,0 +1,11 @@
+.percentageBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 50px;
+  padding: 4px 8px;
+  font-size: 14px;
+  color: #333;
+  height: 25px;
+}

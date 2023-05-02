@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/barchart.css";
+import "../styles/barchart.css";
 
 // BarChart component accepts data, maxValue, and an optional barWidth prop
 const BarChart = ({ data, maxValue, barWidth = 60 }) => {

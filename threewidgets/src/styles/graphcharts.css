@@ -1,7 +1,7 @@
 .graphchart-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: block;
+  margin-left: 60px;
+  margin-right: 60px;
   color: white;
 }
 
@@ -16,7 +16,7 @@
   align-items: center;
   margin-top: 1rem;
   position: relative;
-  width: 600px;
+  width: 100%; /* Changed from fixed pixel value to 100% */
 }
 
 .graphchart-value-label {
@@ -26,16 +26,18 @@
   min-width: 50px;
 }
 
-.graphchart-slider input[type="range"] {
-  width: 100%;
+.percentage-box-container {
+  position: absolute;
 }
 
 .graph-percentage-box {
   display: block;
   padding: 1em;
   margin: 1em;
+  position: absolute; /* Added: Set position to absolute */
 }
 
 .graphchart-slider input {
+  width: 100%;
   accent-color: #ee72f1; /* Change this to the color you want for the slider thumb */
 }
