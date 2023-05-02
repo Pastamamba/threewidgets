@@ -107,6 +107,9 @@ const GraphChart = ({ data1, data2 }) => {
           min="0"
           max="1"
           step="0.01"
+          style={{
+            backgroundColor: "red !important",
+          }}
           value={sliderValue}
           onChange={handleSliderChange}
         />

@@ -35,3 +35,7 @@
   padding: 1em;
   margin: 1em;
 }
+
+.graphchart-slider input {
+  accent-color: #ee72f1; /* Change this to the color you want for the slider thumb */
+}
