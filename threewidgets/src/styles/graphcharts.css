@@ -1,0 +1,37 @@
+.graphchart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.graphchart-percentages {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.graphchart-slider {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  position: relative;
+  width: 600px;
+}
+
+.graphchart-value-label {
+  position: absolute;
+  bottom: -1.5rem;
+  text-align: center;
+  min-width: 50px;
+}
+
+.graphchart-slider input[type="range"] {
+  width: 100%;
+}
+
+.graph-percentage-box {
+  display: block;
+  padding: 1em;
+  margin: 1em;
+}
