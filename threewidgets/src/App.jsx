@@ -4,7 +4,7 @@ import GraphChart from "./GraphChart/GraphChart";
 import ProgressBar from "./ProgressBar/ProgressBar";
 
 const App = () => {
-  // Bar chart datas
+  // Define different sets of bar chart data
   const barChartData = [
     { label: "Positive", value: 100 },
     { label: "Negative", value: 60 },
@@ -30,7 +30,7 @@ const App = () => {
     { label: "Voting 3", value: 42000 },
   ];
 
-  // Line graph data for the first line
+  // Define line graph data for the first line
   const graphData1 = [
     { x: 0.01, y: 2 },
     { x: 0.05, y: 10 },
@@ -46,7 +46,7 @@ const App = () => {
     { x: 1, y: 115 },
   ];
 
-  // Line graph data for the second line
+  // Define line graph data for the second line
   const graphData2 = [
     { x: 0.01, y: 115 },
     { x: 0.05, y: 110 },
@@ -64,46 +64,35 @@ const App = () => {
 
   return (
     <>
-      <div
-        style={{
-          marginBottom: "5em",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-          }}
-        >
+      <div style={{ marginBottom: "5em" }}>
+        <div style={{ width: "100%" }}>
           <h1>Expected</h1>
           <img
-            style={{
-              maxWidth: "100%",
-              height: "auto",
-            }}
+            style={{ maxWidth: "100%", height: "auto" }}
             src={"/widgets-cropped.png"}
           />
         </div>
 
-        {/* Bar Chart Example */}
+        {/* Render Bar Chart examples */}
         <h1>Bar Chart Example</h1>
-        {/* BarChart component with data and maximum value */}
+        {/* Render BarChart components with different data sets and maximum values */}
         <BarChart data={barChartData} maxValue={100} />
-
         <BarChart data={barChartData2} maxValue={100} />
         <BarChart data={barChartData3} maxValue={15000} />
         <BarChart data={barChartData4} maxValue={2000000} />
-        {/* Progress Bar Examples */}
+
+        {/* Render Progress Bar examples */}
         <h1>Progress bar examples</h1>
-        {/* ProgressBar components with different values, goals, and maximums */}
+        {/* Render ProgressBar components with different values, goals, and maximums */}
         <ProgressBar value={80} goal={100} max={150} />
         <ProgressBar value={110} goal={100} max={150} />
         <ProgressBar value={90} goal={100} max={150} />
         <ProgressBar value={60} goal={40} max={150} />
         <ProgressBar value={60} goal={100} max={110} />
 
-        {/* Graph Chart Example */}
+        {/* Render Graph Chart example */}
         <h1>Graph chart example</h1>
-        {/* GraphChart component with two sets of data for two lines */}
+        {/* Render GraphChart component with two sets of data for two lines */}
         <GraphChart data1={graphData1} data2={graphData2} />
       </div>
     </>

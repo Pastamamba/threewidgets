@@ -4,33 +4,34 @@ import PercentageBox from "./PercentageBox";
 
 // GraphChart component accepts data1 and data2 as props
 const GraphChart = ({ data1, data2 }) => {
+  // State and Refs
   const canvasRef = useRef();
   const [percentage1, setPercentage1] = useState(0);
   const [percentage2, setPercentage2] = useState(0);
   const [sliderValue, setSliderValue] = useState(0.5);
-  const [position1, setPosition1] = useState({
-    left: 0,
-    top: "20px",
-  });
-  const [position2, setPosition2] = useState({
-    left: 0,
-    top: "20px",
-  });
+  const [position1, setPosition1] = useState({ left: 0, top: "20px" });
+  const [position2, setPosition2] = useState({ left: 0, top: "20px" });
 
-  // Handle changes to the slider input
+  // Event Handlers
   const handleSliderChange = (event) => {
     setSliderValue(parseFloat(event.target.value));
   };
 
+  const handleCanvasClick = (event) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const newSliderValue = x / canvasRef.current.width;
+    setSliderValue(newSliderValue);
+  };
+
+  // Helper Functions
   // Normalize data points based on the canvas dimensions and maxValue
   const normalizeData = (data, maxValue) => {
     const canvasHeight = canvasRef.current.height;
-    return data.map((point) => {
-      return {
-        x: point.x * canvasRef.current.width,
-        y: canvasHeight - (point.y / maxValue) * canvasHeight,
-      };
-    });
+    return data.map((point) => ({
+      x: point.x * canvasRef.current.width,
+      y: canvasHeight - (point.y / maxValue) * canvasHeight,
+    }));
   };
 
   // Calculate the percentage of a data point at the sliderValue position
@@ -45,11 +46,7 @@ const GraphChart = ({ data1, data2 }) => {
   const drawLine = (ctx, data, color) => {
     ctx.beginPath();
     ctx.moveTo(data[0].x, data[0].y);
-
-    data.forEach((point) => {
-      ctx.lineTo(point.x, point.y);
-    });
-
+    data.forEach((point) => ctx.lineTo(point.x, point.y));
     ctx.lineWidth = 7; // Added: Increase the line width
     ctx.strokeStyle = color;
     ctx.stroke();
@@ -65,15 +62,6 @@ const GraphChart = ({ data1, data2 }) => {
     ctx.stroke();
     ctx.lineWidth = 3;
     ctx.setLineDash([]);
-  };
-
-  // Calculate the position of the value label based on the sliderValue
-  const valueLabelPosition = () => {
-    if (canvasRef.current) {
-      const sliderWidth = canvasRef.current.clientWidth;
-      return sliderValue * sliderWidth - 25;
-    }
-    return 0;
   };
 
   // Draw the x-axis on the canvas
@@ -95,13 +83,16 @@ const GraphChart = ({ data1, data2 }) => {
     ctx.stroke();
   };
 
-  const handleCanvasClick = (event) => {
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const newSliderValue = x / canvasRef.current.width;
-    setSliderValue(newSliderValue);
+  // Calculate the position of the value label based on the sliderValue
+  const valueLabelPosition = () => {
+    if (canvasRef.current) {
+      const sliderWidth = canvasRef.current.clientWidth;
+      return sliderValue * sliderWidth - 25;
+    }
+    return 0;
   };
 
+  // Interpolate a point on the graph based on x position
   const interpolatePoint = (data, x, offsetX) => {
     const indexBefore = data.findIndex((point) => point.x >= x) - 1;
     const indexAfter = indexBefore + 1;
@@ -122,10 +113,21 @@ const GraphChart = ({ data1, data2 }) => {
     };
   };
 
+  // Calculate the position of the percentage box based on the sliderValue
+  const percentageBoxPosition = (point) => {
+    return {
+      left: point.x,
+      top: "20px",
+      transformX: "-50%",
+      transformY: "-100%",
+    };
+  };
+
   const redrawGraph = () => {
     setSliderValue((prevSliderValue) => prevSliderValue + 0.00000001);
   };
 
+  // Effects
   useEffect(() => {
     const handleResize = () => {
       canvasRef.current.width = canvasRef.current.clientWidth;
@@ -157,15 +159,6 @@ const GraphChart = ({ data1, data2 }) => {
     const normalizedData1 = normalizeData(data1, maxValue);
     const normalizedData2 = normalizeData(data2, maxValue);
 
-    // Calculate the position of the percentage box based on the sliderValue
-    const percentageBoxPosition = (point) => {
-      return {
-        left: point.x,
-        top: "20px",
-        transformX: "-50%",
-        transformY: "-100%",
-      };
-    };
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
@@ -187,6 +180,7 @@ const GraphChart = ({ data1, data2 }) => {
       sliderValue * canvasRef.current.width,
       -40
     );
+
     const interpolatedPoint2 = interpolatePoint(
       normalizedData2,
       sliderValue * canvasRef.current.width,

@@ -5,15 +5,16 @@ import "../styles/barchart.css";
 const BarChart = ({ data, maxValue, barWidth = 60 }) => {
   const chartHeight = 200;
 
-  // Function to calculate the height of each bar based on the value and maxValue
+  // Calculate the height of each bar based on the value and maxValue
   const calculateHeight = (value) => {
     const percentage = (value / maxValue) * 100;
-    return (percentage / 100) * chartHeight; // Skaalaa korkeus kaavion korkeuden mukaan
+    return (percentage / 100) * chartHeight; // Scale the height according to the chart height
   };
 
   // Calculate the total width of the bar chart based on the number of bars and the barWidth
   const totalWidth = data.length * barWidth;
 
+  // Function to format large numbers into more readable format
   const formatNumber = (num) => {
     if (num >= 1000000) {
       return (num / 1000000).toFixed(0) + "m";
