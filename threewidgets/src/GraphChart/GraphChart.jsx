@@ -50,7 +50,7 @@ const GraphChart = ({ data1, data2 }) => {
       ctx.lineTo(point.x, point.y);
     });
 
-    ctx.lineWidth = 8; // Added: Increase the line width
+    ctx.lineWidth = 7; // Added: Increase the line width
     ctx.strokeStyle = color;
     ctx.stroke();
   };
@@ -63,16 +63,8 @@ const GraphChart = ({ data1, data2 }) => {
     ctx.lineTo(x, canvasRef.current.height);
     ctx.strokeStyle = color;
     ctx.stroke();
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 3;
     ctx.setLineDash([]);
-  };
-
-  // Draw axis labels on the canvas with the specified maxValue
-  const drawAxisLabels = (ctx, maxValue) => {
-    ctx.fillStyle = "white";
-    ctx.font = "14px Arial";
-    ctx.fillText("0", 5, canvasRef.current.height - 5);
-    ctx.fillText(maxValue, 5, 20);
   };
 
   // Calculate the position of the value label based on the sliderValue
@@ -90,7 +82,7 @@ const GraphChart = ({ data1, data2 }) => {
     ctx.moveTo(0, canvasRef.current.height);
     ctx.lineTo(canvasRef.current.width, canvasRef.current.height);
     ctx.strokeStyle = "#3d3b52";
-    ctx.lineWidth = 25;
+    ctx.lineWidth = 20;
     ctx.stroke();
   };
 
@@ -130,6 +122,27 @@ const GraphChart = ({ data1, data2 }) => {
     };
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      canvasRef.current.width = canvasRef.current.clientWidth;
+      canvasRef.current.height = canvasRef.current.clientHeight;
+    };
+
+    // Call handleResize here to set the canvas dimensions on initial load
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    // Use a Promise to ensure the DOM is fully loaded before updating the sliderValue state
+    Promise.resolve().then(() => {
+      setSliderValue(0.5);
+    });
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   // Use useEffect to draw the graph lines and update the percentages whenever the data or sliderValue changes
   useEffect(() => {
     const maxValue = Math.max(
@@ -158,7 +171,6 @@ const GraphChart = ({ data1, data2 }) => {
     drawLine(ctx, normalizedData1, "#9657a2");
     drawLine(ctx, normalizedData2, "#ee72f1");
     drawVerticalLine(ctx, sliderValue * canvasRef.current.width, "#3d3b52");
-    drawAxisLabels(ctx, maxValue);
 
     // Update percentage state values based on the data and sliderValue
     setPercentage1(calculatePercentage(data1, maxValue, sliderValue));
@@ -184,20 +196,6 @@ const GraphChart = ({ data1, data2 }) => {
       setPosition2(percentageBoxPosition(interpolatedPoint2));
     }
   }, [data1, data2, sliderValue]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      canvasRef.current.width = canvasRef.current.clientWidth;
-      canvasRef.current.height = canvasRef.current.clientHeight;
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
     <div className="graphchart-container" style={{ position: "relative" }}>

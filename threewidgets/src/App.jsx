@@ -6,7 +6,7 @@ import ProgressBar from "./ProgressBar/ProgressBar";
 const App = () => {
   // Bar chart datas
   const barChartData = [
-    { label: "Positive", value: 90 },
+    { label: "Positive", value: 100 },
     { label: "Negative", value: 60 },
   ];
 
@@ -20,10 +20,19 @@ const App = () => {
     { label: "Voting 1", value: 10000 },
     { label: "Voting 2", value: 7500 },
     { label: "Voting 3", value: 5000 },
+    { label: "Voting 3", value: 15000 },
+  ];
+
+  const barChartData4 = [
+    { label: "Voting 1", value: 2000000 },
+    { label: "Voting 2", value: 250000 },
+    { label: "Voting 3", value: 320000 },
+    { label: "Voting 3", value: 42000 },
   ];
 
   // Line graph data for the first line
   const graphData1 = [
+    { x: 0.01, y: 2 },
     { x: 0.05, y: 10 },
     { x: 0.1, y: 20 },
     { x: 0.2, y: 30 },
@@ -39,7 +48,8 @@ const App = () => {
 
   // Line graph data for the second line
   const graphData2 = [
-    { x: 0.05, y: 115 },
+    { x: 0.01, y: 115 },
+    { x: 0.05, y: 110 },
     { x: 0.1, y: 100 },
     { x: 0.2, y: 80 },
     { x: 0.3, y: 60 },
@@ -78,10 +88,10 @@ const App = () => {
         <h1>Bar Chart Example</h1>
         {/* BarChart component with data and maximum value */}
         <BarChart data={barChartData} maxValue={100} />
-        {/* 
+
         <BarChart data={barChartData2} maxValue={100} />
         <BarChart data={barChartData3} maxValue={15000} />
-        */}
+        <BarChart data={barChartData4} maxValue={2000000} />
         {/* Progress Bar Examples */}
         <h1>Progress bar examples</h1>
         {/* ProgressBar components with different values, goals, and maximums */}

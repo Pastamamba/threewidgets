@@ -1,6 +1,5 @@
 .bar-chart {
-  display: flex;
-  justify-content: space-around;
+  display: inline-flex;
   align-items: flex-end;
   border-left: 3px solid #3d3b52;
   border-bottom: 3px solid #3d3b52;
@@ -32,6 +31,12 @@
   align-items: center;
   flex-basis: calc(100% / [number_of_items] - 10px);
   max-width: calc(100% / [number_of_items] - 10px);
+  margin-right: 20px;
+  margin-left: 10px;
+}
+
+.bar-chart-item:last-child {
+  margin-right: 0;
 }
 
 .bar {
