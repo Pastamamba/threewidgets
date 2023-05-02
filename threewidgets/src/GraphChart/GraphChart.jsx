@@ -122,10 +122,15 @@ const GraphChart = ({ data1, data2 }) => {
     };
   };
 
+  const redrawGraph = () => {
+    setSliderValue((prevSliderValue) => prevSliderValue + 0.00000001);
+  };
+
   useEffect(() => {
     const handleResize = () => {
       canvasRef.current.width = canvasRef.current.clientWidth;
       canvasRef.current.height = canvasRef.current.clientHeight;
+      requestAnimationFrame(redrawGraph);
     };
 
     // Call handleResize here to set the canvas dimensions on initial load
