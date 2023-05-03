@@ -32,7 +32,7 @@ const App = () => {
 
   // Define line graph data for the first line
   const graphData1 = [
-    { x: 0.01, y: 2 },
+    { x: 0, y: 0 },
     { x: 0.05, y: 10 },
     { x: 0.1, y: 20 },
     { x: 0.2, y: 30 },
@@ -48,7 +48,7 @@ const App = () => {
 
   // Define line graph data for the second line
   const graphData2 = [
-    { x: 0.01, y: 115 },
+    { x: 0, y: 115 },
     { x: 0.05, y: 110 },
     { x: 0.1, y: 100 },
     { x: 0.2, y: 80 },

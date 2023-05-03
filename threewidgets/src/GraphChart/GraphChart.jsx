@@ -11,10 +11,17 @@ const GraphChart = ({ data1, data2 }) => {
   const [sliderValue, setSliderValue] = useState(0.5);
   const [position1, setPosition1] = useState({ left: 0, top: "20px" });
   const [position2, setPosition2] = useState({ left: 0, top: "20px" });
+  const [sliderBackground, setSliderBackground] = useState("");
 
   // Event Handlers
   const handleSliderChange = (event) => {
-    setSliderValue(parseFloat(event.target.value));
+    const tempSliderValue = parseFloat(event.target.value);
+    setSliderValue(tempSliderValue);
+
+    const progress = (tempSliderValue / event.target.max) * 100;
+    setSliderBackground(
+      `linear-gradient(to right, #ee72f1 ${progress}%, #3d3b52 ${progress}%)`
+    );
   };
 
   const handleCanvasClick = (event) => {
@@ -22,6 +29,10 @@ const GraphChart = ({ data1, data2 }) => {
     const x = event.clientX - rect.left;
     const newSliderValue = x / canvasRef.current.width;
     setSliderValue(newSliderValue);
+    const progress = (newSliderValue / 1) * 100;
+    setSliderBackground(
+      `linear-gradient(to right, #ee72f1 ${progress}%, #3d3b52 ${progress}%)`
+    );
   };
 
   // Helper Functions
@@ -35,11 +46,25 @@ const GraphChart = ({ data1, data2 }) => {
   };
 
   // Calculate the percentage of a data point at the sliderValue position
-  const calculatePercentage = (data, maxValue, sliderValue) => {
-    const lastValue =
-      data.find((point) => point.x >= sliderValue)?.y ||
-      data[data.length - 1].y;
-    return (lastValue / maxValue) * 100;
+  const calculatePercentage = (data, maxValue, sliderX) => {
+    if (sliderX === 0) {
+      const yValue =
+        maxValue - (data[0].y / canvasRef.current.height) * maxValue;
+      return (yValue / maxValue) * 100;
+    }
+
+    const interpolatedPoint = interpolatePoint(
+      data,
+      sliderX * canvasRef.current.width
+    );
+
+    if (!interpolatedPoint) {
+      return null;
+    }
+
+    const yValue =
+      maxValue - (interpolatedPoint.y / canvasRef.current.height) * maxValue;
+    return (yValue / maxValue) * 100;
   };
 
   // Draw a line on the canvas using the provided data and color
@@ -171,8 +196,8 @@ const GraphChart = ({ data1, data2 }) => {
     drawVerticalLine(ctx, sliderValue * canvasRef.current.width, "#3d3b52");
 
     // Update percentage state values based on the data and sliderValue
-    setPercentage1(calculatePercentage(data1, maxValue, sliderValue));
-    setPercentage2(calculatePercentage(data2, maxValue, sliderValue));
+    setPercentage1(calculatePercentage(normalizedData1, maxValue, sliderValue));
+    setPercentage2(calculatePercentage(normalizedData2, maxValue, sliderValue));
 
     // Pass the position prop to the PercentageBox components
     const interpolatedPoint1 = interpolatePoint(
@@ -194,6 +219,11 @@ const GraphChart = ({ data1, data2 }) => {
     if (interpolatedPoint2) {
       setPosition2(percentageBoxPosition(interpolatedPoint2));
     }
+
+    const initialProgress = (sliderValue / 1) * 100;
+    setSliderBackground(
+      `linear-gradient(to right, #ee72f1 ${initialProgress}%, #3d3b52 ${initialProgress}%)`
+    );
   }, [data1, data2, sliderValue]);
 
   return (
@@ -212,11 +242,14 @@ const GraphChart = ({ data1, data2 }) => {
       <div className="graphchart-slider">
         <input
           type="range"
+          id="range1"
+          className="value1"
           min="0"
           max="1"
           step="0.01"
           value={sliderValue}
           onChange={handleSliderChange}
+          style={{ background: sliderBackground }}
         />
         {/* Value label showing the current sliderValue */}
         <span

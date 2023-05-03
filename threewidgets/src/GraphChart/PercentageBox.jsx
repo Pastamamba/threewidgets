@@ -13,7 +13,7 @@ const PercentageBox = ({ value, color, position }) => {
 
   return (
     <div className="percentageBox" style={boxStyle}>
-      {value.toFixed(1)}%
+      {value !== null ? value.toFixed(1) : "-"}%
     </div>
   );
 };

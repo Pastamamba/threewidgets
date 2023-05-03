@@ -39,5 +39,35 @@
 
 .graphchart-slider input {
   width: 100%;
-  accent-color: #ee72f1; /* Change this to the color you want for the slider thumb */
+  accent-color: #ee72f1;
+}
+
+#range1 {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  border-radius: 15px;
+  height: 6px;
+}
+
+#range1::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 20px;
+  background-color: white;
+  border: none;
+  transition: 0.2s ease-in-out;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+}
+
+#range1::-moz-range-thumb {
+  height: 20px;
+  width: 15px;
+  background-color: white;
+  border-radius: 50%;
+  border: none;
+  transition: 0.2s ease-in-out;
 }
